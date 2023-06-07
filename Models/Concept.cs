@@ -11,8 +11,8 @@ namespace Gedo.Models
 
         public int IdBudget { get; set; }
 
-        public int NameField { get; set; }
+        public string NameField { get; set; }
 
-        public int Value { get; set; }
+        public string Value { get; set; }
     }
 }
