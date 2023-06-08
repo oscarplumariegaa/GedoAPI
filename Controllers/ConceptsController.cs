@@ -41,18 +41,14 @@ namespace Gedo.Controllers
         {
             try
             {
-                var connection = new SqlConnection(_dbContext.Database.GetConnectionString());
-                 
-                using (var cmd = new SqlCommand("DELETE FROM dbo.Concepts WHERE IdBill = @ID OR IdBudget = @ID", connection))
-                {
-                    cmd.Parameters.Add("@ID", SqlDbType.Int).Value = id;
-                    cmd.ExecuteNonQuery();
-                }
+                string cmd = $"DELETE FROM Concepts WHERE IdBill={id} OR IdBudget={id}";
+                _dbContext.Database.ExecuteSqlRaw(cmd);
             }
             catch (Exception ex)
             {
-                //ex.Message;
+                Console.WriteLine(ex);
             }
+
         }
     }
 }

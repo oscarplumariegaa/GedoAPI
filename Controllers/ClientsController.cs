@@ -16,7 +16,7 @@ namespace Gedo.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> Get()
+        public async Task<ActionResult<IEnumerable<Client>>> GetClients()
         {
             var result = _dbContext.Clients.ToList();
             if (!result.Any())

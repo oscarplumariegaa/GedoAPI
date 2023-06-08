@@ -16,14 +16,15 @@ namespace Gedo.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet(Name = "GetBills")]
-        public ActionResult<IEnumerable<Bill>> GetBudgets()
+        [HttpGet]
+        public ActionResult<IEnumerable<Bill>> GetBills()
         {
-            if (_dbContext.Bills == null)
+            var result = _dbContext.Bills.ToList();
+            if (!result.Any())
             {
                 return NotFound();
             }
-            return _dbContext.Bills.ToList();
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
