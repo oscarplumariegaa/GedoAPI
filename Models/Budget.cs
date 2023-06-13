@@ -15,5 +15,9 @@ namespace Gedo.Models
 
         public decimal ImportIVA { get; set; }
 
+        public string NameBudget { get; set; }
+
+        public string? NameClient { get; set; }
+
     }
 }
