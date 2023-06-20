@@ -16,5 +16,7 @@ namespace Gedo.Models
         public string CIF { get; set; } = string.Empty;
 
         public int PhoneNumber { get; set; }
+
+        public int IdUser { get; set; }
     }
 }

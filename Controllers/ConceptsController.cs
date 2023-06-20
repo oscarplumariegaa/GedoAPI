@@ -48,7 +48,6 @@ namespace Gedo.Controllers
             {
                 Console.WriteLine(ex);
             }
-
         }
     }
 }

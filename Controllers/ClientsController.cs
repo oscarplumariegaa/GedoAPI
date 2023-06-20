@@ -1,6 +1,7 @@
 ﻿using Gedo.Context;
 using Gedo.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gedo.Controllers
 {
@@ -37,6 +38,16 @@ namespace Gedo.Controllers
             {
                 return NotFound();
             }
+        }
+        [HttpGet("ClientsByUser/{id}")]
+        public ActionResult<Client> GetByUserId(int id)
+        {
+            var result = _dbContext.Clients.Where(x => x.IdUser == id);
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
         [HttpPost]
         public void Post([FromBody] Client client)

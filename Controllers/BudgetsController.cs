@@ -48,18 +48,12 @@ namespace DocuGen.Controllers
                     {
                         if (result[i].IdClient == clients[j].IdClient)
                         {
-                            //var nameForClient = new BudgetInfoClient() { NameClient = clients[j].NameClient };
                             result[i].NameClient = clients[j].NameClient;
                         }
                     }
                 }
             }
             return Ok(result);
-        }
-
-        public class BudgetInfoClient
-        {
-            public string NameClient { get; set; }
         }
 
         //get: api/budget/id
