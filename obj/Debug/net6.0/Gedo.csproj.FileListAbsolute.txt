@@ -77,3 +77,7 @@ D:\Gedo\obj\Debug\net6.0\refint\Gedo.dll
 D:\Gedo\obj\Debug\net6.0\Gedo.pdb
 D:\Gedo\obj\Debug\net6.0\Gedo.genruntimeconfig.cache
 D:\Gedo\obj\Debug\net6.0\ref\Gedo.dll
+D:\Gedo\bin\Debug\net6.0\System.Net.Http.Formatting.dll
+D:\Gedo\bin\Debug\net6.0\System.Web.Http.dll
+D:\Gedo\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Gedo\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll

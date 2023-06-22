@@ -3,7 +3,6 @@ using Gedo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Data;
 using Microsoft.Data.SqlClient;
 
@@ -30,10 +29,24 @@ namespace Gedo.Controllers
             }
             return Ok(result);
         }
-        [HttpPost]
-        public void Post([FromBody] Concept concept)
+
+        [HttpGet("BudgetConcepts/{id}")]
+        public ActionResult<IEnumerable<Concept>> GetBudgetConcepts(int id)
         {
-            _dbContext.Concepts.Add(concept);
+            var result = _dbContext.Concepts.Where(c => c.IdBudget == id).ToList();
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        [HttpPost]
+        public void Post([FromBody] Concept[] concept)
+        {
+            foreach (Concept C in concept)
+            {
+                _dbContext.Concepts.Add(C);
+            }
             _dbContext.SaveChanges();
         }
         [HttpDelete("{id}")]

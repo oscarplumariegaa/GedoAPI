@@ -55,8 +55,21 @@ namespace DocuGen.Controllers
             }
             return Ok(result);
         }
+        [HttpGet("LastBudget/{id}")]
+        public ActionResult<Budget> GetIdLastBudget(int id)
+        {
+            var lastBudget = _dbContext.Budgets.OrderBy(x => x.IdBudget).LastOrDefault(x => x.IdUser == id);
+            if (lastBudget != null)
+            {
+                return Ok(lastBudget.IdBudget+1);
+            }
+            else
+            {
+                return NotFound();
+            }
 
-        //get: api/budget/id
+        }
+
         [HttpGet("{id}")]
         public ActionResult<Budget> GetById(int id)
         {
