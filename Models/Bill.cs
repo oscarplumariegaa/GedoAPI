@@ -11,8 +11,7 @@ namespace Gedo.Models
 
         public int IdClient { get; set; }
 
-        public decimal Import { get; set; }
+        public int IdBudget { get; set; }
 
-        public decimal ImportIVA { get; set; }
     }
 }

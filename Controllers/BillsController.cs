@@ -26,7 +26,26 @@ namespace Gedo.Controllers
             }
             return Ok(result);
         }
+        [HttpPost]
+        public void Post([FromBody] Bill value)
+        {
+            _dbContext.Bills.Add(value);
+            _dbContext.SaveChanges();
+        }
+        [HttpGet("LastBill/{id}")]
+        public ActionResult<Bill> GetIdLastBill(int id)
+        {
+            var lastBill = _dbContext.Bills.OrderBy(x => x.IdBill).LastOrDefault(x => x.IdUser == id);
+            if (lastBill != null)
+            {
+                return Ok(lastBill.IdBill + 1);
+            }
+            else
+            {
+                return Ok(1);
+            }
 
+        }
         [HttpGet("{id}")]
         public ActionResult<Bill> GetById(int id)
         {

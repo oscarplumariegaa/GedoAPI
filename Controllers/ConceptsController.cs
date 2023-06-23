@@ -49,6 +49,38 @@ namespace Gedo.Controllers
             }
             _dbContext.SaveChanges();
         }
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] Concept[] concept)
+        {
+            var concepts = _dbContext.Concepts.Where(x => x.IdBudget == id).ToList();
+
+            if (concepts != null)
+            {
+                for(int i = 0; i < concepts.Count; i++)
+                {
+                    foreach (Concept C in concept)
+                    {
+                        if (C.IdConcept > 0)
+                        {
+                            if (C.IdConcept == concepts[i].IdConcept)
+                            {
+                                _dbContext.Entry<Concept>(concepts[i]).CurrentValues.SetValues(C);
+                                _dbContext.SaveChanges();
+                            }
+                        }
+                        else
+                        {
+                            _dbContext.ChangeTracker.Clear();
+                            _dbContext.Concepts.Add(C);
+                            _dbContext.SaveChanges();
+
+                        }
+                    }
+                }
+                //_dbContext.Entry<Budget>(budget).CurrentValues.SetValues(value);
+                
+            }
+        }
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

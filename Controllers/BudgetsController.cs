@@ -69,7 +69,6 @@ namespace DocuGen.Controllers
             }
 
         }
-
         [HttpGet("{id}")]
         public ActionResult<Budget> GetById(int id)
         {
@@ -91,8 +90,14 @@ namespace DocuGen.Controllers
         {
             var budget = _dbContext.Budgets.FirstOrDefault(x => x.IdBudget == id);
             if (budget != null)
-            {
-                _dbContext.Entry<Budget>(budget).CurrentValues.SetValues(value);
+            {   
+                budget.IdClient = value.IdClient;
+                budget.NameClient = value.NameClient;
+                budget.NameBudget = value.NameBudget;
+                budget.Import = value.Import;
+                budget.ImportIVA = value.ImportIVA;
+                budget.IdUser = value.IdUser;
+
                 _dbContext.SaveChanges();
             }
         }
