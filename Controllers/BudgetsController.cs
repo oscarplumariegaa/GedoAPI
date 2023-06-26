@@ -61,13 +61,12 @@ namespace DocuGen.Controllers
             var lastBudget = _dbContext.Budgets.OrderBy(x => x.IdBudget).LastOrDefault(x => x.IdUser == id);
             if (lastBudget != null)
             {
-                return Ok(lastBudget.IdBudget+1);
+                return Ok(lastBudget);
             }
             else
             {
-                return NotFound();
+                return Ok(0);
             }
-
         }
         [HttpGet("{id}")]
         public ActionResult<Budget> GetById(int id)
