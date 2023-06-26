@@ -91,6 +91,7 @@ namespace DocuGen.Controllers
             if (budget != null)
             {   
                 budget.IdClient = value.IdClient;
+                budget.IdBill = value.IdBill;
                 budget.NameClient = value.NameClient;
                 budget.NameBudget = value.NameBudget;
                 budget.Import = value.Import;
