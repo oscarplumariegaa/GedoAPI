@@ -16,10 +16,10 @@ namespace Gedo.Controllers
             _dbContext = dbContext;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Bill>> GetBills()
+        [HttpGet("BillsByUser/{id}")]
+        public ActionResult<IEnumerable<Bill>> GetBills(int id)
         {
-            var result = _dbContext.Bills.ToList();
+            var result = _dbContext.Bills.Where(x => x.IdUser == id).ToList();
             if (!result.Any())
             {
                 return NotFound();

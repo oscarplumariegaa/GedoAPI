@@ -21,20 +21,19 @@ namespace DocuGen.Controllers
 
         //get: api/budgets
         [HttpGet]
-        public ActionResult<IEnumerable<Budget>> GetBudgets()
+        public ActionResult<IEnumerable<Budget>> GetBudgets(int id)
         {
-            var result = _dbContext.Budgets.ToList();
+            var result = _dbContext.Budgets.Where(x => x.IdUser == id).ToList();
             if (!result.Any())
             {
                 return NotFound();
             }
             return Ok(result);
         }
-        [Route("Data")]
-        [HttpGet]
-        public ActionResult<IEnumerable<Budget>> GetBudgetsData()
+        [HttpGet("BudgetsByUser/{id}")]
+        public ActionResult<IEnumerable<Budget>> GetBudgetsData(int id)
         {
-            var result = _dbContext.Budgets.ToList();
+            var result = _dbContext.Budgets.Where(x => x.IdUser == id).ToList();
             var clients = _clientContext.Clients.ToList();
             if (!result.Any())
             {
