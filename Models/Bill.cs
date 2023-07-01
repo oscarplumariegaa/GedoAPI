@@ -13,5 +13,7 @@ namespace Gedo.Models
 
         public int IdBudget { get; set; }
 
+        public string? NameBill { get; set; }
+
     }
 }
