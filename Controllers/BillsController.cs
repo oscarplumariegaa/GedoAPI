@@ -91,7 +91,7 @@ namespace Gedo.Controllers
                 {
                     budget.IdBill = null;
 
-                    _dbContext.SaveChanges();
+                    _budgetContext.SaveChanges();
                 }
                 _dbContext.Bills.Remove(bill);
                 _dbContext.SaveChanges();
