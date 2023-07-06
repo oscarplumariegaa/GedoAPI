@@ -15,5 +15,7 @@ namespace Gedo.Models
 
         public string? NameBill { get; set; }
 
+        public string? NameClient { get; set; }
+
     }
 }
