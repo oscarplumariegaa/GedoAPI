@@ -1,6 +1,8 @@
 ﻿using Gedo.Context;
 using Gedo.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Gedo.Controllers
 {
@@ -27,8 +29,27 @@ namespace Gedo.Controllers
         [HttpPost]
         public void Post([FromBody] User user)
         {
+            user.Password = hashPassword(user.Password);
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<User>>> Login(string email, string password)
+        {
+            var result = _dbContext.Users.Where(u => u.Email == email && u.Password == hashPassword(password)).ToList();
+            if (!result.Any())
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        string hashPassword(string password)
+        {
+            var sha = SHA256.Create();
+            var asByteArray = Encoding.Default.GetBytes(password);
+            var hashedPassword = sha.ComputeHash(asByteArray);
+
+            return Convert.ToBase64String(hashedPassword);
         }
     }
 }
