@@ -33,7 +33,7 @@ namespace Gedo.Controllers
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
         }
-        [HttpGet]
+        [HttpGet("Login/{email}/{password}")]
         public async Task<ActionResult<IEnumerable<User>>> Login(string email, string password)
         {
             var result = _dbContext.Users.Where(u => u.Email == email && u.Password == hashPassword(password)).ToList();
