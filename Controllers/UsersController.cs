@@ -16,6 +16,17 @@ namespace Gedo.Controllers
         {
             _dbContext = dbContext;
         }
+        [HttpGet("/{id}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUser(int id)
+        {
+            var result = _dbContext.Users.FirstOrDefault(x => x.IdUser == id);
+            if (result != null)
+            {
+                return Ok(result);
+                
+            }
+            return NotFound();
+        }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
