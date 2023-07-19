@@ -21,5 +21,7 @@ namespace Gedo.Models
 
         public string? NameClient { get; set; }
 
+        public int IVA { get; set; }
+
     }
 }

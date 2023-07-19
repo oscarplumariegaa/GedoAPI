@@ -12,11 +12,15 @@ namespace DocuGen.Controllers
     {
         private readonly BudgetContext _dbContext;
         private readonly ClientContext _clientContext;
+        private readonly BillContext _billContext;
+        private readonly ConceptContext _conceptContext;
 
-        public BudgetsController(BudgetContext dbContext, ClientContext clientContext)
+        public BudgetsController(BudgetContext dbContext, ClientContext clientContext, BillContext billContext, ConceptContext conceptContext)
         {
             _dbContext = dbContext;
             _clientContext = clientContext;
+            _billContext = billContext;
+            _conceptContext = conceptContext;
         }
 
         //get: api/budgets
@@ -104,8 +108,20 @@ namespace DocuGen.Controllers
         public void Delete(int id)
         {
             var budget = _dbContext.Budgets.FirstOrDefault(x => x.IdBudget == id);
+            var bill = _billContext.Bills.FirstOrDefault(x => x.IdBudget == id);
+            var concepts = _conceptContext.Concepts.Where(x => x.IdBudget == id).ToList();
             if (budget != null)
             {
+                for (int i = 0; i < concepts.Count; i++)
+                {
+                    _conceptContext.Remove(concepts[i]);
+                    _conceptContext.SaveChanges();
+                }
+                if(bill != null)
+                {
+                    _billContext.Remove(bill);
+                    _billContext.SaveChanges();
+                }
                 _dbContext.Remove(budget);
                 _dbContext.SaveChanges();
             }
