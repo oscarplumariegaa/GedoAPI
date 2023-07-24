@@ -14,5 +14,7 @@ namespace Gedo.Models
         public string? NameField { get; set; }
 
         public decimal Value { get; set; }
+
+        public int? Units { get; set; }
     }
 }

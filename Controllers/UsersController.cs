@@ -44,6 +44,22 @@ namespace Gedo.Controllers
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
         }
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] User value)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x => x.IdUser == id);
+            if (user != null)
+            {
+                user.Name = value.Name;
+                user.Email = value.Email;
+                user.Address = value.Address;
+                user.PhoneNumber = value.PhoneNumber;
+                user.CIF = value.CIF;
+                user.Logo = value.Logo;
+
+                _dbContext.SaveChanges();
+            }
+        }
         [HttpGet("Login/{email}/{password}")]
         public async Task<ActionResult<IEnumerable<User>>> Login(string email, string password)
         {
