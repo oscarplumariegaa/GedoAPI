@@ -23,5 +23,7 @@ namespace Gedo.Models
 
         public int IVA { get; set; }
 
+        public string Date { get; set; }
+
     }
 }
