@@ -1,8 +1,11 @@
 ﻿using Gedo.Context;
 using Gedo.Controllers;
 using Gedo.Models;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
 
 namespace DocuGen.Controllers
 {
@@ -125,6 +128,21 @@ namespace DocuGen.Controllers
                 _dbContext.Remove(budget);
                 _dbContext.SaveChanges();
             }
+        }
+        [HttpGet("mail/{to}/{subject}/{from}")]
+        public void SendEmail(string to, string subject, string from)
+        {
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(from));
+            email.To.Add(MailboxAddress.Parse(to));
+            email.Subject = subject;
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = "Example" };
+
+            using var smtp = new SmtpClient();
+            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
+            smtp.Authenticate("", "");
+            smtp.Send(email);
+            smtp.Disconnect(true);
         }
     }
 
