@@ -5,7 +5,11 @@ using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
 using MimeKit;
+using System.Diagnostics;
+using System.Net.Mail;
+using System.Text;
 
 namespace DocuGen.Controllers
 {
@@ -129,21 +133,48 @@ namespace DocuGen.Controllers
                 _dbContext.SaveChanges();
             }
         }
-        [HttpGet("mail/{to}/{subject}/{from}")]
-        public void SendEmail(string to, string subject, string from)
+        [HttpPost]
+        [RequestFormLimits(ValueCountLimit = int.MaxValue, MultipartBodyLengthLimit = long.MaxValue)]
+        [DisableRequestSizeLimit]
+        [Route("Send_Email")]
+        public ActionResult<FilePdf> Post([FromQuery] string to, [FromQuery] string subject, [FromQuery] string from)
         {
-            var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse(from));
-            email.To.Add(MailboxAddress.Parse(to));
-            email.Subject = subject;
-            email.Body = new TextPart(MimeKit.Text.TextFormat.Plain) { Text = "Example" };
+            /*string _from = HttpContext.Request.Query["from"].ToString();
+            string _subject = HttpContext.Request.Query["subject"].ToString();
+            string _to = HttpContext.Request.Query["to"].ToString();*/
 
-            using var smtp = new SmtpClient();
-            smtp.Connect("smtp.ethereal.email", 587, SecureSocketOptions.StartTls);
-            smtp.Authenticate("", "");
+            var email = new MailMessage();
+            email.From = new System.Net.Mail.MailAddress(from);
+            email.To.Add(to);
+            email.Subject = subject;
+
+            //var filePath = @"C:/Users/Usuario/Downloads/" + ePdf;
+            //var pdfString = new StreamReader(Request.Body).ReadToEnd();
+            var pdf = Encoding.UTF8.GetBytes(HttpContext.Request.Form["filename"]);
+            //var pdfBinary = Convert.FromBase64String(pdf);
+            email.Attachments.Add(new Attachment(new MemoryStream(pdf), "pdf"));
+
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.Credentials = new System.Net.NetworkCredential("", "");
+            smtp.EnableSsl = true;
             smtp.Send(email);
-            smtp.Disconnect(true);
+
+            return null;
         }
     }
 
+    public class FilePdf
+    {
+        public AnyType file { get; set; }
+    }
+
+    public class ParamsContact
+    {
+        public string to { get; set; }
+        public string from { get; set; }
+        public string subject { get; set; }
+    }
 }
